@@ -1,6 +1,5 @@
 import { Component, inject, viewChild } from '@angular/core';
-import { TaskFormComponent } from './components/task-form/task-form.component';
-import { TaskListComponent } from './components/task-list/task-list.component';
+import { TaskPanelComponent } from './components/task-panel/task-panel.component';
 import { GoblinLeaderboardComponent } from './components/goblin-leaderboard/goblin-leaderboard.component';
 import { StatsDashboardComponent } from './components/stats-dashboard/stats-dashboard.component';
 import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
@@ -21,7 +20,7 @@ import { GameService } from './services/game.service';
   selector: 'app-root',
   standalone: true,
   imports: [
-    TaskFormComponent, TaskListComponent, GoblinLeaderboardComponent, StatsDashboardComponent,
+    TaskPanelComponent, GoblinLeaderboardComponent, StatsDashboardComponent,
     ThemeToggleComponent, WeatherWidgetComponent, DailyQuestsComponent, ShopComponent,
     QuestChainsComponent, NotificationCenterComponent, GoblinRecruitmentComponent,
     ActionBarComponent, AchievementsComponent, ToastComponent, GoblinDiceComponent
@@ -54,20 +53,14 @@ import { GameService } from './services/game.service';
         (openQuests)="questsModal.open()"
         (openRecruit)="recruitModal.open()"
         (openDice)="diceModal.open()"
-        (openAchievements)="showAchievements = !showAchievements"
+        (openAchievements)="achievementsModal.open()"
       />
 
       <main>
         <div class="content">
           <div class="left-column">
+            <app-task-panel />
             <app-daily-quests />
-            <div class="tasks-section">
-              <app-task-form />
-              <app-task-list />
-            </div>
-            @if (showAchievements) {
-              <app-achievements />
-            }
           </div>
           <aside>
             <app-goblin-leaderboard />
@@ -79,6 +72,7 @@ import { GameService } from './services/game.service';
       <app-quest-chains #questsModal />
       <app-goblin-recruitment #recruitModal />
       <app-goblin-dice #diceModal />
+      <app-achievements #achievementsModal />
       <app-toast />
     </div>
   `,
@@ -146,11 +140,6 @@ import { GameService } from './services/game.service';
       flex-direction: column;
       gap: 20px;
     }
-    .tasks-section {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
     @media (max-width: 1100px) {
       .top-widgets { grid-template-columns: 1fr; }
       .content { grid-template-columns: 1fr; }
@@ -164,10 +153,10 @@ import { GameService } from './services/game.service';
 export class AppComponent {
   themeService = inject(ThemeService);
   gameService = inject(GameService);
-  showAchievements = false;
 
   shopModal = viewChild.required<ShopComponent>('shopModal');
   questsModal = viewChild.required<QuestChainsComponent>('questsModal');
   recruitModal = viewChild.required<GoblinRecruitmentComponent>('recruitModal');
   diceModal = viewChild.required<GoblinDiceComponent>('diceModal');
+  achievementsModal = viewChild.required<AchievementsComponent>('achievementsModal');
 }
