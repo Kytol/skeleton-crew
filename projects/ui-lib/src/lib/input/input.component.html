@@ -1,0 +1,55 @@
+<div [ngClass]="wrapperClasses">
+  <!-- Label -->
+  <label 
+    *ngIf="label" 
+    [for]="inputId" 
+    class="ui-input__label"
+  >
+    {{ label }}
+  </label>
+
+  <!-- Input container -->
+  <div class="ui-input__container">
+    <!-- Prefix icon -->
+    <span 
+      *ngIf="prefixIcon" 
+      class="ui-input__icon ui-input__icon--prefix"
+      aria-hidden="true"
+    >
+      {{ prefixIcon }}
+    </span>
+
+    <!-- Input element -->
+    <input
+      [id]="inputId"
+      [type]="type"
+      [value]="value"
+      [placeholder]="placeholder"
+      [disabled]="disabled"
+      [attr.aria-invalid]="!!error"
+      [attr.aria-describedby]="error ? inputId + '-error' : null"
+      class="ui-input__field"
+      (input)="onInputChange($event)"
+      (blur)="onBlur()"
+    />
+
+    <!-- Suffix icon -->
+    <span 
+      *ngIf="suffixIcon" 
+      class="ui-input__icon ui-input__icon--suffix"
+      aria-hidden="true"
+    >
+      {{ suffixIcon }}
+    </span>
+  </div>
+
+  <!-- Error message -->
+  <span 
+    *ngIf="error" 
+    [id]="inputId + '-error'"
+    class="ui-input__error"
+    role="alert"
+  >
+    {{ error }}
+  </span>
+</div>

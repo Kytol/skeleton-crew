@@ -1,0 +1,155 @@
+/**
+ * UI Button Component Styles
+ */
+
+/* Base button styles */
+.ui-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2, 8px);
+  font-family: var(--font-family, 'Inter', sans-serif);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: var(--line-height-tight, 1.25);
+  border-radius: var(--radius-md, 6px);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast, 150ms ease);
+  position: relative;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.ui-button:focus-visible {
+  outline: 2px solid var(--color-focus-ring, rgba(59, 130, 246, 0.5));
+  outline-offset: 2px;
+}
+
+/* Primary variant */
+.ui-button--primary {
+  background-color: var(--color-primary, #3b82f6);
+  color: #ffffff;
+  border-color: var(--color-primary, #3b82f6);
+}
+
+.ui-button--primary:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--color-primary, #3b82f6) 85%, black);
+  border-color: color-mix(in srgb, var(--color-primary, #3b82f6) 85%, black);
+}
+
+.ui-button--primary:active:not(:disabled) {
+  background-color: color-mix(in srgb, var(--color-primary, #3b82f6) 75%, black);
+}
+
+/* Secondary variant */
+.ui-button--secondary {
+  background-color: var(--color-secondary, #6b7280);
+  color: #ffffff;
+  border-color: var(--color-secondary, #6b7280);
+}
+
+.ui-button--secondary:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--color-secondary, #6b7280) 85%, black);
+  border-color: color-mix(in srgb, var(--color-secondary, #6b7280) 85%, black);
+}
+
+.ui-button--secondary:active:not(:disabled) {
+  background-color: color-mix(in srgb, var(--color-secondary, #6b7280) 75%, black);
+}
+
+/* Outline variant */
+.ui-button--outline {
+  background-color: transparent;
+  color: var(--color-primary, #3b82f6);
+  border-color: var(--color-border, #d1d5db);
+}
+
+.ui-button--outline:hover:not(:disabled) {
+  background-color: var(--color-hover, rgba(0, 0, 0, 0.05));
+  border-color: var(--color-primary, #3b82f6);
+}
+
+.ui-button--outline:active:not(:disabled) {
+  background-color: var(--color-hover, rgba(0, 0, 0, 0.1));
+}
+
+/* Size variants - padding is applied via inline style from component */
+.ui-button--sm {
+  min-height: 28px;
+}
+
+.ui-button--md {
+  min-height: 36px;
+}
+
+.ui-button--lg {
+  min-height: 44px;
+}
+
+/* Disabled state */
+.ui-button--disabled,
+.ui-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Loading state */
+.ui-button--loading {
+  cursor: wait;
+  pointer-events: none;
+}
+
+.ui-button__spinner {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-button__spinner-icon {
+  width: 1em;
+  height: 1em;
+  animation: ui-button-spin 1s linear infinite;
+}
+
+@keyframes ui-button-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ui-button__content--hidden {
+  visibility: hidden;
+}
+
+/* Icon styles */
+.ui-button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ui-button__icon--left {
+  order: -1;
+}
+
+.ui-button__icon--right {
+  order: 1;
+}
+
+/* Icon-only button adjustments */
+.ui-button--icon-only {
+  aspect-ratio: 1;
+  min-width: auto;
+}
+
+/* Content wrapper */
+.ui-button__content {
+  display: inline-flex;
+  align-items: center;
+}

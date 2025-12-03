@@ -1,0 +1,45 @@
+<button
+  [ngClass]="buttonClasses"
+  [style.padding]="paddingStyle"
+  [style.fontSize]="fontSizeStyle"
+  [disabled]="disabled || loading"
+  [attr.aria-disabled]="disabled || loading"
+  [attr.aria-busy]="loading"
+  [attr.tabindex]="disabled ? -1 : 0"
+  (click)="onClick($event)"
+  (keydown)="onKeyDown($event)"
+>
+  <!-- Loading spinner overlay -->
+  <span *ngIf="loading" class="ui-button__spinner" aria-hidden="true">
+    <svg class="ui-button__spinner-icon" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="31.4 31.4" />
+    </svg>
+  </span>
+
+  <!-- Left icon -->
+  <span 
+    *ngIf="iconLeft" 
+    class="ui-button__icon ui-button__icon--left"
+    aria-hidden="true"
+    role="img"
+    [attr.aria-label]="iconLeft"
+  >
+    {{ iconLeft }}
+  </span>
+
+  <!-- Button content -->
+  <span class="ui-button__content" [class.ui-button__content--hidden]="loading">
+    <ng-content></ng-content>
+  </span>
+
+  <!-- Right icon -->
+  <span 
+    *ngIf="iconRight" 
+    class="ui-button__icon ui-button__icon--right"
+    aria-hidden="true"
+    role="img"
+    [attr.aria-label]="iconRight"
+  >
+    {{ iconRight }}
+  </span>
+</button>

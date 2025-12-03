@@ -1,0 +1,53 @@
+/**
+ * UI Library Theme System
+ * CSS Variables for light and dark themes
+ */
+
+/* Light Theme (default) */
+:root,
+.theme-light {
+  /* Core Colors */
+  --color-bg: #ffffff;
+  --color-surface: #f6f7f8;
+  --color-text: #222;
+  --color-primary: #3b82f6;
+  --color-secondary: #6b7280;
+  --color-border: #d1d5db;
+
+  /* State Colors */
+  --color-error: #ef4444;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+
+  /* Hover/Focus States */
+  --color-hover: rgba(0, 0, 0, 0.05);
+  --color-focus-ring: rgba(59, 130, 246, 0.5);
+
+  /* Disabled State */
+  --color-disabled-bg: #f3f4f6;
+  --color-disabled-text: #9ca3af;
+}
+
+/* Dark Theme */
+.theme-dark {
+  /* Core Colors */
+  --color-bg: #111827;
+  --color-surface: #1f2937;
+  --color-text: #f3f4f6;
+  --color-primary: #60a5fa;
+  --color-secondary: #9ca3af;
+  --color-border: #374151;
+
+  /* State Colors */
+  --color-error: #f87171;
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+
+  /* Hover/Focus States */
+  --color-hover: rgba(255, 255, 255, 0.05);
+  --color-focus-ring: rgba(96, 165, 250, 0.5);
+
+  /* Disabled State */
+  --color-disabled-bg: #374151;
+  --color-disabled-text: #6b7280;
+}

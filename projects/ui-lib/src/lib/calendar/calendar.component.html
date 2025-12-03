@@ -1,0 +1,73 @@
+<div class="ui-calendar" (keydown)="onKeyDown($event)" tabindex="0">
+  <!-- Header with navigation -->
+  <div class="ui-calendar__header">
+    <button 
+      type="button" 
+      class="ui-calendar__nav-btn"
+      aria-label="Previous month"
+      (click)="previousMonth()"
+    >
+      ‹
+    </button>
+    <span class="ui-calendar__month-year">{{ monthYearLabel }}</span>
+    <button 
+      type="button" 
+      class="ui-calendar__nav-btn"
+      aria-label="Next month"
+      (click)="nextMonth()"
+    >
+      ›
+    </button>
+  </div>
+
+  <!-- Weekday headers -->
+  <div class="ui-calendar__weekdays">
+    <span *ngFor="let day of weekDays" class="ui-calendar__weekday">
+      {{ day }}
+    </span>
+  </div>
+
+  <!-- Calendar grid -->
+  <div class="ui-calendar__grid" role="grid">
+    <button
+      *ngFor="let day of calendarDays; trackBy: trackByDate"
+      type="button"
+      class="ui-calendar__day"
+      [class.ui-calendar__day--other-month]="!day.isCurrentMonth"
+      [class.ui-calendar__day--today]="day.isToday"
+      [class.ui-calendar__day--selected]="day.isSelected"
+      [class.ui-calendar__day--in-range]="day.isInRange"
+      [class.ui-calendar__day--disabled]="day.isDisabled"
+      [class.ui-calendar__day--focused]="isSameDayPublic(day.date, focusedDate)"
+      [disabled]="day.isDisabled"
+      [attr.aria-selected]="day.isSelected"
+      (click)="selectDate(day)"
+    >
+      {{ day.date.getDate() }}
+    </button>
+  </div>
+
+  <!-- Time picker -->
+  <div *ngIf="showTime" class="ui-calendar__time">
+    <label class="ui-calendar__time-label">Time:</label>
+    <input
+      type="number"
+      class="ui-calendar__time-input"
+      [ngModel]="selectedHours"
+      (ngModelChange)="selectedHours = $event; onTimeChange()"
+      min="0"
+      max="23"
+      aria-label="Hours"
+    />
+    <span class="ui-calendar__time-separator">:</span>
+    <input
+      type="number"
+      class="ui-calendar__time-input"
+      [ngModel]="selectedMinutes"
+      (ngModelChange)="selectedMinutes = $event; onTimeChange()"
+      min="0"
+      max="59"
+      aria-label="Minutes"
+    />
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div [ngClass]="wrapperClasses">
+  <!-- Search icon -->
+  <span class="ui-search__icon" aria-hidden="true">
+    🔍
+  </span>
+
+  <!-- Search input -->
+  <input
+    type="text"
+    class="ui-search__input"
+    [value]="value"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [attr.aria-label]="placeholder"
+    (input)="onInputChange($event)"
+    (keydown)="onKeyDown($event)"
+  />
+
+  <!-- Clear button -->
+  <button
+    *ngIf="value && !disabled"
+    type="button"
+    class="ui-search__clear"
+    aria-label="Clear search"
+    (click)="clearSearch()"
+  >
+    ✕
+  </button>
+</div>

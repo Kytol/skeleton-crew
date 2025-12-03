@@ -1,0 +1,114 @@
+<div class="ui-table">
+  <!-- Toolbar -->
+  <div class="ui-table__toolbar" *ngIf="searchable || columnManager">
+    <!-- Search -->
+    <ui-search
+      *ngIf="searchable"
+      [value]="searchQuery"
+      placeholder="Search..."
+      (valueChange)="onSearch($event)"
+    ></ui-search>
+
+    <!-- Column manager -->
+    <div class="ui-table__column-manager" *ngIf="columnManager">
+      <button 
+        type="button" 
+        class="ui-table__column-btn"
+        (click)="toggleColumnManager()"
+        aria-label="Manage columns"
+      >
+        Columns ▼
+      </button>
+      <div class="ui-table__column-dropdown" *ngIf="columnManagerOpen">
+        <label 
+          *ngFor="let col of columns; trackBy: trackByField" 
+          class="ui-table__column-option"
+        >
+          <input
+            type="checkbox"
+            [checked]="col.visible !== false"
+            (change)="toggleColumnVisibility(col)"
+          />
+          {{ col.title }}
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="ui-table__wrapper">
+    <table class="ui-table__table" role="grid">
+      <thead>
+        <tr>
+          <th
+            *ngFor="let col of visibleColumns; trackBy: trackByField"
+            [style.width]="col.width"
+            [class.ui-table__th--sortable]="sortable && col.sortable !== false"
+            (click)="onHeaderClick(col)"
+            [attr.aria-sort]="sortField === col.field ? sortDirection : null"
+          >
+            {{ col.title }}
+            <span *ngIf="sortable && col.sortable !== false" class="ui-table__sort-indicator">
+              {{ getSortIndicator(col) }}
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let row of displayedData; let i = index; trackBy: trackByIndex"
+          tabindex="0"
+          (click)="onRowClick(row)"
+          (keydown)="onKeyDown($event, row)"
+        >
+          <td *ngFor="let col of visibleColumns; trackBy: trackByField">
+            {{ row[col.field] }}
+          </td>
+        </tr>
+        <tr *ngIf="displayedData.length === 0">
+          <td [attr.colspan]="visibleColumns.length" class="ui-table__empty">
+            No data available
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- Pagination -->
+  <div class="ui-table__pagination">
+    <div class="ui-table__page-size">
+      <label>
+        Rows per page:
+        <select [ngModel]="pageSize" (ngModelChange)="onPageSizeChange($event)">
+          <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="ui-table__page-info">
+      Page {{ currentPage }} of {{ totalPages || 1 }}
+    </div>
+
+    <div class="ui-table__page-controls">
+      <button
+        type="button"
+        class="ui-table__page-btn"
+        [disabled]="currentPage <= 1"
+        (click)="goToPage(currentPage - 1)"
+        aria-label="Previous page"
+      >
+        ‹
+      </button>
+      <button
+        type="button"
+        class="ui-table__page-btn"
+        [disabled]="currentPage >= totalPages"
+        (click)="goToPage(currentPage + 1)"
+        aria-label="Next page"
+      >
+        ›
+      </button>
+    </div>
+  </div>
+</div>
