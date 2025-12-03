@@ -82,7 +82,7 @@ export interface TableState {
   visibleColumns: string[];
 }
 
-export const DEFAULT_PAGE_SIZES = [10, 25, 50, 100];
+export const DEFAULT_PAGE_SIZES = [5, 10, 25, 50, 100];
 
 // ============================================
 // Search Component Types
