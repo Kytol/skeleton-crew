@@ -8,10 +8,6 @@ import { TaskService } from '../../services/task.service';
   imports: [CommonModule, DatePipe],
   template: `
     <div class="stats-dashboard">
-      <div class="current-time">
-        <span class="time">🕐 {{ currentTime | date:'mediumTime' }}</span>
-        <span class="date">{{ currentTime | date:'fullDate' }}</span>
-      </div>
       <div class="stats-grid">
         <div class="stat-card">
           <span class="stat-value">{{ stats().total }}</span>
@@ -35,9 +31,17 @@ import { TaskService } from '../../services/task.service';
             <span class="stat-label">⚠️ Overdue</span>
           </div>
         }
-        <div class="stat-card gold">
-          <span class="stat-value">{{ stats().totalRewardsEarned }}</span>
-          <span class="stat-label">💰 Gold Earned</span>
+        <div class="stat-card streak">
+          <span class="stat-value">🔥 {{ stats().streak }}</span>
+          <span class="stat-label">Streak</span>
+        </div>
+        <div class="stat-card level">
+          <span class="stat-value">⭐ {{ stats().highestLevel }}</span>
+          <span class="stat-label">Top Level</span>
+        </div>
+        <div class="stat-card achievements">
+          <span class="stat-value">🏆 {{ stats().achievementsUnlocked }}</span>
+          <span class="stat-label">Trophies</span>
         </div>
       </div>
     </div>
@@ -79,15 +83,12 @@ import { TaskService } from '../../services/task.service';
     .stat-card.progress { border-left: 3px solid var(--border-progress); }
     .stat-card.completed { border-left: 3px solid var(--border-completed); }
     .stat-card.overdue { border-left: 3px solid var(--border-overdue); background: rgba(154,76,76,0.2); }
-    .stat-card.gold { border-left: 3px solid var(--accent-gold); }
+    .stat-card.streak { border-left: 3px solid #f97316; }
+    .stat-card.level { border-left: 3px solid #a78bfa; }
+    .stat-card.achievements { border-left: 3px solid var(--accent-gold); }
   `]
 })
 export class StatsDashboardComponent {
   private taskService = inject(TaskService);
   stats = this.taskService.stats;
-  currentTime = new Date();
-
-  constructor() {
-    setInterval(() => this.currentTime = new Date(), 1000);
-  }
 }
