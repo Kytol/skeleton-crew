@@ -105,6 +105,18 @@ export class MercenaryService {
     );
   }
 
+  setOnMission(id: string): void {
+    this.mercenaries.update(list =>
+      list.map(m => m.id === id ? { ...m, status: 'on-mission' as const } : m)
+    );
+  }
+
+  returnFromMission(id: string): void {
+    this.mercenaries.update(list =>
+      list.map(m => m.id === id && m.status === 'on-mission' ? { ...m, status: 'hired' as const } : m)
+    );
+  }
+
   getMercenaryById(id: string): Mercenary | undefined {
     return this.mercenaries().find(m => m.id === id);
   }

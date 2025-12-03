@@ -7,9 +7,11 @@ import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.com
 import { SquadPanelComponent } from './components/squad-panel/squad-panel.component';
 import { RecruitmentBoardComponent } from './components/recruitment-board/recruitment-board.component';
 import { NotificationBellComponent } from './components/notification-bell/notification-bell.component';
+import { MissionBoardComponent } from './components/mission-board/mission-board.component';
 import { ThemeService } from './services/theme.service';
+import { MissionService } from './services/mission.service';
 
-type TabType = 'marketplace' | 'squad' | 'recruitment';
+type TabType = 'marketplace' | 'squad' | 'missions' | 'recruitment';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +19,7 @@ type TabType = 'marketplace' | 'squad' | 'recruitment';
   imports: [
     FilterSidebarComponent, SearchSortBarComponent, MercenaryGridComponent,
     StatsHeaderComponent, ThemeToggleComponent, SquadPanelComponent,
-    RecruitmentBoardComponent, NotificationBellComponent
+    RecruitmentBoardComponent, NotificationBellComponent, MissionBoardComponent
   ],
   template: `
     <div class="app-container">
@@ -37,6 +39,12 @@ type TabType = 'marketplace' | 'squad' | 'recruitment';
         </button>
         <button class="tab" [class.active]="activeTab() === 'squad'" (click)="activeTab.set('squad')">
           ⚔️ My Squad
+        </button>
+        <button class="tab" [class.active]="activeTab() === 'missions'" (click)="activeTab.set('missions')">
+          🗺️ Missions
+          @if (missionService.inProgressMissions().length > 0) {
+            <span class="badge">{{ missionService.inProgressMissions().length }}</span>
+          }
         </button>
         <button class="tab" [class.active]="activeTab() === 'recruitment'" (click)="activeTab.set('recruitment')">
           📋 Recruitment
@@ -58,6 +66,10 @@ type TabType = 'marketplace' | 'squad' | 'recruitment';
         <div class="squad-layout">
           <app-squad-panel />
         </div>
+      }
+
+      @if (activeTab() === 'missions') {
+        <app-mission-board />
       }
 
       @if (activeTab() === 'recruitment') {
@@ -130,6 +142,7 @@ type TabType = 'marketplace' | 'squad' | 'recruitment';
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
+      position: relative;
     }
     .tab:hover {
       background: var(--card-overlay);
@@ -138,6 +151,20 @@ type TabType = 'marketplace' | 'squad' | 'recruitment';
     .tab.active {
       background: var(--accent-gold);
       color: #000;
+    }
+    .tab .badge {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: #c45a5a;
+      color: #fff;
+      font-size: 0.7rem;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .main-content {
       display: grid;
@@ -159,5 +186,6 @@ type TabType = 'marketplace' | 'squad' | 'recruitment';
 })
 export class AppComponent {
   themeService = inject(ThemeService);
+  missionService = inject(MissionService);
   activeTab = signal<TabType>('marketplace');
 }
