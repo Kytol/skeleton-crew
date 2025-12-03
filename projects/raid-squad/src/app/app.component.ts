@@ -10,10 +10,12 @@ import { NotificationBellComponent } from './components/notification-bell/notifi
 import { MissionBoardComponent } from './components/mission-board/mission-board.component';
 import { ResourceHeaderComponent } from './components/resource-header/resource-header.component';
 import { TreasuryDashboardComponent } from './components/treasury-dashboard/treasury-dashboard.component';
+import { SocialHubComponent } from './components/social-hub/social-hub.component';
 import { ThemeService } from './services/theme.service';
 import { MissionService } from './services/mission.service';
+import { SocialService } from './services/social.service';
 
-type TabType = 'marketplace' | 'squad' | 'missions' | 'treasury' | 'recruitment';
+type TabType = 'marketplace' | 'squad' | 'missions' | 'treasury' | 'social' | 'recruitment';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +24,7 @@ type TabType = 'marketplace' | 'squad' | 'missions' | 'treasury' | 'recruitment'
     FilterSidebarComponent, SearchSortBarComponent, MercenaryGridComponent,
     StatsHeaderComponent, ThemeToggleComponent, SquadPanelComponent,
     RecruitmentBoardComponent, NotificationBellComponent, MissionBoardComponent,
-    ResourceHeaderComponent, TreasuryDashboardComponent
+    ResourceHeaderComponent, TreasuryDashboardComponent, SocialHubComponent
   ],
   template: `
     <div class="app-container">
@@ -41,10 +43,10 @@ type TabType = 'marketplace' | 'squad' | 'missions' | 'treasury' | 'recruitment'
 
       <nav class="tabs">
         <button class="tab" [class.active]="activeTab() === 'marketplace'" (click)="activeTab.set('marketplace')">
-          🏪 Marketplace
+          🏪 Market
         </button>
         <button class="tab" [class.active]="activeTab() === 'squad'" (click)="activeTab.set('squad')">
-          ⚔️ My Squad
+          ⚔️ Squad
         </button>
         <button class="tab" [class.active]="activeTab() === 'missions'" (click)="activeTab.set('missions')">
           🗺️ Missions
@@ -55,8 +57,14 @@ type TabType = 'marketplace' | 'squad' | 'missions' | 'treasury' | 'recruitment'
         <button class="tab" [class.active]="activeTab() === 'treasury'" (click)="activeTab.set('treasury')">
           🏦 Treasury
         </button>
+        <button class="tab" [class.active]="activeTab() === 'social'" (click)="activeTab.set('social')">
+          👥 Social
+          @if (socialService.onlinePlayers().length > 0) {
+            <span class="badge online">{{ socialService.onlinePlayers().length }}</span>
+          }
+        </button>
         <button class="tab" [class.active]="activeTab() === 'recruitment'" (click)="activeTab.set('recruitment')">
-          📋 Recruitment
+          📋 Recruit
         </button>
       </nav>
 
@@ -83,6 +91,10 @@ type TabType = 'marketplace' | 'squad' | 'missions' | 'treasury' | 'recruitment'
 
       @if (activeTab() === 'treasury') {
         <app-treasury-dashboard />
+      }
+
+      @if (activeTab() === 'social') {
+        <app-social-hub />
       }
 
       @if (activeTab() === 'recruitment') {
@@ -150,12 +162,12 @@ type TabType = 'marketplace' | 'squad' | 'missions' | 'treasury' | 'recruitment'
     }
     .tab {
       flex: 1;
-      padding: 14px 20px;
+      padding: 14px 16px;
       background: transparent;
       border: none;
       border-radius: 8px;
       color: var(--text-secondary);
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
@@ -183,6 +195,9 @@ type TabType = 'marketplace' | 'squad' | 'missions' | 'treasury' | 'recruitment'
       align-items: center;
       justify-content: center;
     }
+    .tab .badge.online {
+      background: #5ac47a;
+    }
     .main-content {
       display: grid;
       grid-template-columns: 280px 1fr;
@@ -205,5 +220,6 @@ type TabType = 'marketplace' | 'squad' | 'missions' | 'treasury' | 'recruitment'
 export class AppComponent {
   themeService = inject(ThemeService);
   missionService = inject(MissionService);
+  socialService = inject(SocialService);
   activeTab = signal<TabType>('marketplace');
 }
