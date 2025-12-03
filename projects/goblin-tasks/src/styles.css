@@ -1,0 +1,79 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* Nighttime Raid (Dark Theme - Default) */
+:root,
+[data-theme="nighttime-raid"] {
+  --bg-primary: #0d0a12;
+  --bg-secondary: #1a1225;
+  --bg-card: linear-gradient(135deg, #2d1f3d 0%, #1a1225 100%);
+  --bg-card-alt: linear-gradient(135deg, #3d2f4d 0%, #2a1f35 100%);
+  --bg-leaderboard: linear-gradient(135deg, #1f2d3d 0%, #121a25 100%);
+  --bg-stats: linear-gradient(135deg, #2d3d1f 0%, #1a2512 100%);
+  
+  --border-primary: #6b4c9a;
+  --border-secondary: #3d2f4d;
+  --border-leaderboard: #4c6b9a;
+  --border-stats: #6b9a4c;
+  --border-progress: #9a6b4c;
+  --border-completed: #4c9a6b;
+  --border-overdue: #9a4c4c;
+  
+  --text-primary: #e8d5b7;
+  --text-secondary: #b8a8c8;
+  --text-muted: #8b7a6b;
+  --text-heading: #e8d5b7;
+  --text-white: #fff;
+  
+  --accent-gold: #ffd700;
+  --accent-purple: #6b4c9a;
+  --accent-purple-hover: #8b6cba;
+  
+  --input-bg: #1a1225;
+  --hover-bg: rgba(255,255,255,0.1);
+  --card-overlay: rgba(255,255,255,0.05);
+}
+
+/* Daytime Attack (Light Theme) */
+[data-theme="daytime-attack"] {
+  --bg-primary: #f5f0e6;
+  --bg-secondary: #fff8e7;
+  --bg-card: linear-gradient(135deg, #fff8e7 0%, #f5f0e6 100%);
+  --bg-card-alt: linear-gradient(135deg, #fffdf5 0%, #f8f4eb 100%);
+  --bg-leaderboard: linear-gradient(135deg, #e8f4f8 0%, #f0f8ff 100%);
+  --bg-stats: linear-gradient(135deg, #f0f8e8 0%, #e8f5e0 100%);
+  
+  --border-primary: #8b6cba;
+  --border-secondary: #d4c4e4;
+  --border-leaderboard: #6b9aba;
+  --border-stats: #8bba6c;
+  --border-progress: #ba8b6c;
+  --border-completed: #6cba8b;
+  --border-overdue: #ba6c6c;
+  
+  --text-primary: #3d2f4d;
+  --text-secondary: #5a4a6a;
+  --text-muted: #8b7a9b;
+  --text-heading: #2d1f3d;
+  --text-white: #2d1f3d;
+  
+  --accent-gold: #d4a800;
+  --accent-purple: #8b6cba;
+  --accent-purple-hover: #6b4c9a;
+  
+  --input-bg: #fff;
+  --hover-bg: rgba(0,0,0,0.05);
+  --card-overlay: rgba(0,0,0,0.03);
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
