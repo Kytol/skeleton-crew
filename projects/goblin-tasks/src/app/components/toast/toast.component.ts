@@ -43,7 +43,8 @@ interface Toast {
       align-items: center;
       gap: 12px;
       padding: 16px 20px;
-      background: var(--bg-secondary);
+      background: rgba(26, 26, 26, 0.69);
+      backdrop-filter: blur(10px);
       border: 2px solid var(--border-primary);
       border-radius: 12px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.5);
@@ -52,10 +53,10 @@ interface Toast {
       cursor: pointer;
       max-width: 350px;
     }
-    .toast.success { border-color: #5ac47a; background: linear-gradient(135deg, rgba(90,196,122,0.15), var(--bg-secondary)); }
-    .toast.achievement { border-color: var(--accent-gold); background: linear-gradient(135deg, rgba(255,215,0,0.15), var(--bg-secondary)); animation: slideIn 0.3s ease, glow 1s ease-in-out infinite, fadeOut 0.3s ease 3.7s forwards; }
-    .toast.info { border-color: #4a90d9; background: linear-gradient(135deg, rgba(74,144,217,0.15), var(--bg-secondary)); }
-    .toast.warning { border-color: #f59e0b; background: linear-gradient(135deg, rgba(245,158,11,0.15), var(--bg-secondary)); }
+    .toast.success { border-color: #5ac47a; background: rgba(26, 40, 30, 0.69); }
+    .toast.achievement { border-color: var(--accent-gold); background: rgba(40, 35, 20, 0.69); animation: slideIn 0.3s ease, glow 1s ease-in-out infinite, fadeOut 0.3s ease 3.7s forwards; }
+    .toast.info { border-color: #4a90d9; background: rgba(20, 30, 45, 0.69); }
+    .toast.warning { border-color: #f59e0b; background: rgba(45, 35, 20, 0.69); }
     @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: translateX(50px); } }
     @keyframes glow { 0%, 100% { box-shadow: 0 0 10px rgba(255,215,0,0.3); } 50% { box-shadow: 0 0 25px rgba(255,215,0,0.6); } }
@@ -75,14 +76,17 @@ export class ToastComponent {
       const notifications = this.gameService.alerts();
       if (notifications.length > this.lastNotificationCount && notifications.length > 0) {
         const latest = notifications[0];
-        this.showToast({
-          id: latest.id,
-          icon: latest.icon,
-          title: latest.title,
-          message: latest.message,
-          type: latest.type === 'achievement' || latest.type === 'level-up' ? 'achievement' :
-                latest.type === 'quest-complete' ? 'success' : 'info'
-        });
+        // Use setTimeout to defer signal write outside of effect
+        setTimeout(() => {
+          this.showToast({
+            id: latest.id,
+            icon: latest.icon,
+            title: latest.title,
+            message: latest.message,
+            type: latest.type === 'achievement' || latest.type === 'level-up' ? 'achievement' :
+                  latest.type === 'quest-complete' ? 'success' : 'info'
+          });
+        }, 0);
       }
       this.lastNotificationCount = notifications.length;
     });
@@ -94,6 +98,6 @@ export class ToastComponent {
   }
 
   removeToast(id: string): void {
-    this.toasts.update(t => t.filter(toast => toast.id !== id));
+    this.toasts.update(t => t.filter(tt => tt.id !== id));
   }
 }
