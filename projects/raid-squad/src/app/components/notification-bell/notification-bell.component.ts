@@ -50,6 +50,8 @@ import { RecruitmentService } from '../../services/recruitment.service';
       border-radius: 50%; width: 44px; height: 44px;
       font-size: 1.25rem; cursor: pointer; position: relative;
       transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center;
+      line-height: 1;
     }
     .bell-btn:hover { border-color: var(--accent-gold); }
     .badge {

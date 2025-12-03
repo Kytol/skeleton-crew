@@ -5,11 +5,13 @@ import {
 } from '../models/mission.model';
 import { SquadService } from './squad.service';
 import { MercenaryService } from './mercenary.service';
+import { EconomyService } from './economy.service';
 
 @Injectable({ providedIn: 'root' })
 export class MissionService {
   private squadService = inject(SquadService);
   private mercenaryService = inject(MercenaryService);
+  private economyService = inject(EconomyService);
 
   private missions = signal<Mission[]>(this.generateMissions());
   private activeMissions = signal<ActiveMission[]>([]);
@@ -167,6 +169,16 @@ export class MissionService {
 
     this.missionResults.update(list => [result, ...list]);
     this.totalGoldEarned.update(g => g + result.goldEarned);
+
+    // Add gold to treasury
+    this.economyService.earn('gold', result.goldEarned, 
+      `${success ? 'Completed' : 'Failed'}: ${mission.name}`
+    );
+
+    // Bonus gems for legendary missions
+    if (success && mission.difficulty === 'legendary') {
+      this.economyService.earn('gems', 10, `Legendary bonus: ${mission.name}`);
+    }
 
     // Update mission status
     this.missions.update(list =>

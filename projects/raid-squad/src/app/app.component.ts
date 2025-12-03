@@ -8,10 +8,12 @@ import { SquadPanelComponent } from './components/squad-panel/squad-panel.compon
 import { RecruitmentBoardComponent } from './components/recruitment-board/recruitment-board.component';
 import { NotificationBellComponent } from './components/notification-bell/notification-bell.component';
 import { MissionBoardComponent } from './components/mission-board/mission-board.component';
+import { ResourceHeaderComponent } from './components/resource-header/resource-header.component';
+import { TreasuryDashboardComponent } from './components/treasury-dashboard/treasury-dashboard.component';
 import { ThemeService } from './services/theme.service';
 import { MissionService } from './services/mission.service';
 
-type TabType = 'marketplace' | 'squad' | 'missions' | 'recruitment';
+type TabType = 'marketplace' | 'squad' | 'missions' | 'treasury' | 'recruitment';
 
 @Component({
   selector: 'app-root',
@@ -19,14 +21,18 @@ type TabType = 'marketplace' | 'squad' | 'missions' | 'recruitment';
   imports: [
     FilterSidebarComponent, SearchSortBarComponent, MercenaryGridComponent,
     StatsHeaderComponent, ThemeToggleComponent, SquadPanelComponent,
-    RecruitmentBoardComponent, NotificationBellComponent, MissionBoardComponent
+    RecruitmentBoardComponent, NotificationBellComponent, MissionBoardComponent,
+    ResourceHeaderComponent, TreasuryDashboardComponent
   ],
   template: `
     <div class="app-container">
       <header>
         <div class="header-top">
-          <app-notification-bell />
-          <app-theme-toggle />
+          <app-resource-header />
+          <div class="header-actions">
+            <app-notification-bell />
+            <app-theme-toggle />
+          </div>
         </div>
         <h1>{{ themeService.isDark() ? '🌑' : '🔥' }} Raid Squad</h1>
         <p class="subtitle">Gang Recruitment Portal</p>
@@ -45,6 +51,9 @@ type TabType = 'marketplace' | 'squad' | 'missions' | 'recruitment';
           @if (missionService.inProgressMissions().length > 0) {
             <span class="badge">{{ missionService.inProgressMissions().length }}</span>
           }
+        </button>
+        <button class="tab" [class.active]="activeTab() === 'treasury'" (click)="activeTab.set('treasury')">
+          🏦 Treasury
         </button>
         <button class="tab" [class.active]="activeTab() === 'recruitment'" (click)="activeTab.set('recruitment')">
           📋 Recruitment
@@ -70,6 +79,10 @@ type TabType = 'marketplace' | 'squad' | 'missions' | 'recruitment';
 
       @if (activeTab() === 'missions') {
         <app-mission-board />
+      }
+
+      @if (activeTab() === 'treasury') {
+        <app-treasury-dashboard />
       }
 
       @if (activeTab() === 'recruitment') {
@@ -99,9 +112,13 @@ type TabType = 'marketplace' | 'squad' | 'missions' | 'recruitment';
     }
     .header-top {
       display: flex;
-      justify-content: flex-end;
-      gap: 12px;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 20px;
+    }
+    .header-actions {
+      display: flex;
+      gap: 12px;
     }
     header h1 {
       color: var(--accent-gold);
@@ -181,6 +198,7 @@ type TabType = 'marketplace' | 'squad' | 'missions' | 'recruitment';
       }
       header h1 { font-size: 2rem; }
       .tabs { flex-direction: column; }
+      .header-top { flex-direction: column; gap: 12px; }
     }
   `]
 })
