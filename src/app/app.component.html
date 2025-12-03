@@ -1,0 +1,141 @@
+<div class="theme-wrapper" [class.theme-dark]="isDarkTheme" [class.theme-light]="!isDarkTheme">
+<div class="demo-container">
+  <!-- Header -->
+  <div class="demo-header">
+    <h1>UI Library Demo</h1>
+    <ui-button [variant]="'outline'" (clicked)="toggleTheme()">
+      {{ isDarkTheme ? '☀️ Light Mode' : '🌙 Dark Mode' }}
+    </ui-button>
+  </div>
+
+  <!-- Button Section -->
+  <section class="demo-section">
+    <h2>Button Component</h2>
+    
+    <div class="demo-label">Variants</div>
+    <div class="demo-row">
+      <ui-button variant="primary" (clicked)="onButtonClick()">Primary</ui-button>
+      <ui-button variant="secondary" (clicked)="onButtonClick()">Secondary</ui-button>
+      <ui-button variant="outline" (clicked)="onButtonClick()">Outline</ui-button>
+    </div>
+
+    <div class="demo-label">Sizes</div>
+    <div class="demo-row">
+      <ui-button size="sm">Small</ui-button>
+      <ui-button size="md">Medium</ui-button>
+      <ui-button size="lg">Large</ui-button>
+    </div>
+
+    <div class="demo-label">States</div>
+    <div class="demo-row">
+      <ui-button [disabled]="true">Disabled</ui-button>
+      <ui-button [loading]="true">Loading</ui-button>
+    </div>
+
+    <div class="demo-label">With Icons</div>
+    <div class="demo-row">
+      <ui-button iconLeft="←">Back</ui-button>
+      <ui-button iconRight="→">Next</ui-button>
+      <ui-button iconLeft="⚙️" iconRight="▼">Settings</ui-button>
+    </div>
+  </section>
+
+  <!-- Input Section -->
+  <section class="demo-section">
+    <h2>Input Component</h2>
+    
+    <div class="demo-row" style="flex-direction: column; max-width: 400px;">
+      <ui-input 
+        label="Username" 
+        placeholder="Enter your username"
+        [value]="inputValue"
+        (valueChange)="onInputChange($event)"
+      ></ui-input>
+
+      <ui-input 
+        label="Email" 
+        type="email"
+        placeholder="Enter your email"
+        prefixIcon="📧"
+      ></ui-input>
+
+      <ui-input 
+        label="Password" 
+        type="password"
+        placeholder="Enter password"
+        suffixIcon="👁️"
+      ></ui-input>
+
+      <ui-input 
+        label="With Error" 
+        placeholder="Invalid input"
+        error="This field is required"
+      ></ui-input>
+
+      <ui-input 
+        label="Disabled" 
+        placeholder="Cannot edit"
+        [disabled]="true"
+      ></ui-input>
+    </div>
+  </section>
+
+
+  <!-- Search Section -->
+  <section class="demo-section">
+    <h2>Search Component</h2>
+    
+    <div class="demo-row" style="max-width: 400px;">
+      <ui-search 
+        placeholder="Search items..."
+        [value]="searchValue"
+        (valueChange)="onSearchChange($event)"
+      ></ui-search>
+    </div>
+    <p *ngIf="searchValue" style="margin-top: 8px; color: var(--color-secondary);">
+      Searching for: "{{ searchValue }}"
+    </p>
+  </section>
+
+  <!-- Calendar Section -->
+  <section class="demo-section">
+    <h2>Calendar Component</h2>
+    
+    <div class="demo-row">
+      <div>
+        <div class="demo-label">Single Date Selection</div>
+        <ui-calendar 
+          mode="single"
+          (valueChange)="onDateChange($event)"
+        ></ui-calendar>
+      </div>
+      
+      <div>
+        <div class="demo-label">With Time Picker</div>
+        <ui-calendar 
+          mode="single"
+          [showTime]="true"
+        ></ui-calendar>
+      </div>
+    </div>
+    
+    <p *ngIf="selectedDate" style="margin-top: 8px; color: var(--color-secondary);">
+      Selected: {{ selectedDate | date:'fullDate' }}
+    </p>
+  </section>
+
+  <!-- Table Section -->
+  <section class="demo-section">
+    <h2>Table Component</h2>
+    
+    <ui-table
+      [columns]="tableColumns"
+      [data]="tableData"
+      [sortable]="true"
+      [searchable]="true"
+      [columnManager]="true"
+      [pageSize]="5"
+    ></ui-table>
+  </section>
+</div>
+</div>

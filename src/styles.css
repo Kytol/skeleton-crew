@@ -1,0 +1,81 @@
+/* Global styles for demo app */
+@import '../projects/ui-lib/src/lib/theme/theme.css';
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+}
+
+/* Theme wrapper - applies theme to entire page */
+.theme-wrapper {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.demo-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.demo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.demo-header h1 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.demo-section {
+  margin-bottom: 48px;
+}
+
+.demo-section h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--color-text);
+}
+
+.demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.demo-label {
+  font-size: 14px;
+  color: var(--color-secondary);
+  margin-bottom: 8px;
+}
+
+/* Ensure inputs have proper background in dark mode */
+.theme-dark input,
+.theme-dark select {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Fix focus outlines for dark mode */
+.theme-dark *:focus-visible {
+  outline-color: var(--color-primary);
+}
