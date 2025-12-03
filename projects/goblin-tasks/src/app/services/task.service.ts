@@ -3,17 +3,47 @@ import { Task, Goblin, TaskPriority, TaskCategory, GoblinMood, ACHIEVEMENTS, MOO
 
 @Injectable({ providedIn: 'root' })
 export class TaskService {
-  private tasks = signal<Task[]>([]);
-  private goblins = signal<Goblin[]>([
-    this.createGoblin('1', 'Gruk', '👺', 'mining'),
-    this.createGoblin('2', 'Snix', '👹', 'crafting'),
-    this.createGoblin('3', 'Blix', '🧌', 'gathering'),
-    this.createGoblin('4', 'Zork', '😈', 'combat'),
-    this.createGoblin('5', 'Nix', '🧙', 'exploration'),
-  ]);
-  private currentStreak = signal(0);
-  private unlockedAchievements = signal<string[]>([]);
+  private tasks = signal<Task[]>(this.createDummyTasks());
+  private goblins = signal<Goblin[]>(this.createDummyGoblins());
+  private currentStreak = signal(5);
+  private unlockedAchievements = signal<string[]>(['first-task', 'task-5', 'gold-100', 'streak-3', 'level-3']);
   private dailyBonus = signal({ claimed: false, day: new Date().toDateString() });
+
+  private createDummyGoblins(): Goblin[] {
+    return [
+      { id: '1', name: 'Gruk', avatar: '👺', specialty: 'mining', totalRewards: 450, tasksCompleted: 8, level: 4, xp: 65, xpToNextLevel: 150, mood: 'happy', energy: 80, maxEnergy: 100, skills: this.createSkills(3, 1, 1, 1, 1, 2), achievements: [] },
+      { id: '2', name: 'Snix', avatar: '👹', specialty: 'crafting', totalRewards: 320, tasksCompleted: 5, level: 3, xp: 40, xpToNextLevel: 150, mood: 'neutral', energy: 60, maxEnergy: 100, skills: this.createSkills(1, 3, 1, 1, 1, 1), achievements: [] },
+      { id: '3', name: 'Blix', avatar: '🧌', specialty: 'gathering', totalRewards: 280, tasksCompleted: 6, level: 3, xp: 80, xpToNextLevel: 150, mood: 'excited', energy: 100, maxEnergy: 100, skills: this.createSkills(1, 1, 3, 1, 2, 1), achievements: [] },
+      { id: '4', name: 'Zork', avatar: '😈', specialty: 'combat', totalRewards: 520, tasksCompleted: 7, level: 5, xp: 20, xpToNextLevel: 225, mood: 'happy', energy: 40, maxEnergy: 100, skills: this.createSkills(1, 1, 1, 4, 1, 1), achievements: [] },
+      { id: '5', name: 'Nix', avatar: '🧙', specialty: 'exploration', totalRewards: 180, tasksCompleted: 3, level: 2, xp: 50, xpToNextLevel: 100, mood: 'tired', energy: 30, maxEnergy: 100, skills: this.createSkills(1, 1, 1, 1, 2, 1), achievements: [] },
+    ];
+  }
+
+  private createSkills(mining: number, crafting: number, gathering: number, combat: number, exploration: number, general: number) {
+    return [
+      { category: 'mining' as TaskCategory, level: mining, xp: mining * 50 },
+      { category: 'crafting' as TaskCategory, level: crafting, xp: crafting * 50 },
+      { category: 'gathering' as TaskCategory, level: gathering, xp: gathering * 50 },
+      { category: 'combat' as TaskCategory, level: combat, xp: combat * 50 },
+      { category: 'exploration' as TaskCategory, level: exploration, xp: exploration * 50 },
+      { category: 'general' as TaskCategory, level: general, xp: general * 50 },
+    ];
+  }
+
+  private createDummyTasks(): Task[] {
+    const now = new Date();
+    return [
+      { id: '1', title: 'Mine Iron Ore', description: 'Collect 50 iron ore from the eastern mines', reward: 75, xpReward: 45, priority: 'high', category: 'mining', deadline: new Date(now.getTime() + 3600000 * 4), assignedGoblinId: null, status: 'pending', createdAt: new Date(now.getTime() - 3600000), startedAt: null, completedAt: null, streak: 0 },
+      { id: '2', title: 'Craft Goblin Armor', description: 'Forge a new set of leather armor', reward: 120, xpReward: 70, priority: 'medium', category: 'crafting', deadline: new Date(now.getTime() + 3600000 * 24), assignedGoblinId: null, status: 'pending', createdAt: new Date(now.getTime() - 7200000), startedAt: null, completedAt: null, streak: 0 },
+      { id: '3', title: 'Scout Enemy Camp', description: 'Gather intel on the human settlement nearby', reward: 100, xpReward: 60, priority: 'urgent', category: 'exploration', deadline: new Date(now.getTime() + 3600000 * 2), assignedGoblinId: '5', status: 'in-progress', createdAt: new Date(now.getTime() - 1800000), startedAt: new Date(now.getTime() - 900000), completedAt: null, streak: 0 },
+      { id: '4', title: 'Gather Mushrooms', description: 'Collect rare glowing mushrooms from the cave', reward: 50, xpReward: 35, priority: 'low', category: 'gathering', deadline: null, assignedGoblinId: '3', status: 'in-progress', createdAt: new Date(now.getTime() - 5400000), startedAt: new Date(now.getTime() - 3600000), completedAt: null, streak: 0 },
+      { id: '5', title: 'Defeat Cave Trolls', description: 'Clear the trolls blocking the mountain pass', reward: 200, xpReward: 100, priority: 'high', category: 'combat', deadline: new Date(now.getTime() - 3600000), assignedGoblinId: null, status: 'pending', createdAt: new Date(now.getTime() - 86400000), startedAt: null, completedAt: null, streak: 0 },
+      { id: '6', title: 'Repair Camp Fence', description: 'Fix the broken sections of the perimeter', reward: 40, xpReward: 25, priority: 'low', category: 'general', deadline: null, assignedGoblinId: null, status: 'pending', createdAt: new Date(now.getTime() - 43200000), startedAt: null, completedAt: null, streak: 0 },
+      { id: '7', title: 'Raid Supply Wagon', description: 'Successfully raided merchant supplies', reward: 150, xpReward: 80, priority: 'high', category: 'combat', deadline: null, assignedGoblinId: '4', status: 'completed', createdAt: new Date(now.getTime() - 172800000), startedAt: new Date(now.getTime() - 86400000), completedAt: new Date(now.getTime() - 43200000), streak: 1 },
+      { id: '8', title: 'Brew Healing Potions', description: 'Created 10 healing potions for the tribe', reward: 80, xpReward: 50, priority: 'medium', category: 'crafting', deadline: null, assignedGoblinId: '2', status: 'completed', createdAt: new Date(now.getTime() - 259200000), startedAt: new Date(now.getTime() - 172800000), completedAt: new Date(now.getTime() - 86400000), streak: 2 },
+      { id: '9', title: 'Find Hidden Treasure', description: 'Discovered ancient goblin treasure cache', reward: 300, xpReward: 120, priority: 'medium', category: 'exploration', deadline: null, assignedGoblinId: '1', status: 'completed', createdAt: new Date(now.getTime() - 345600000), startedAt: new Date(now.getTime() - 259200000), completedAt: new Date(now.getTime() - 172800000), streak: 3 },
+    ];
+  }
 
   readonly allTasks = this.tasks.asReadonly();
   readonly allGoblins = this.goblins.asReadonly();
