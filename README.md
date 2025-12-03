@@ -14,6 +14,8 @@ Lean, fast, and enchantingly easy to build with.
 | ⚔️ **Raid Squad** | Mercenary recruitment portal with squads, missions & treasury |
 | 📦 **UI-Lib** | Shared component library (buttons, inputs, calendar) |
 
+**[Demo]( https://kytol.github.io/ui-demo)**
+
 ## 🧰 Prerequisites
 
 Before summoning the goblins, make sure you have these installed:
